@@ -1,0 +1,34 @@
+Name,Syntax,Description,Response,Value,Note
+Clear Status,*CLS,Clears the Status Byte (STB) and the Event Status Register (ESR),,,
+Event Status Register,*ESR?,Returns the contents and clears the Event Status Register,0 to 255,,If the corresponding bit in the ESE Register is set... TODO: Include register info here.
+Event Status Enable Register,*ESE <n>,Sets the bits in the Event Status Enable,,0 to 255,"Only bit 0, 3, 5 are used in the ESR… TODO: Include register info here."
+Event Status Enable Register Query,*ESE?,Returns the contents of the Event Status Enable Register,An integer in a range of 0 to 255,,
+Service Request Enable,*SRE <n>,Sets the bits in the Service Request Enable Register. If one of the corresponding bit of the Status Byte is true the MSS bit in the STB is set.,0 to 255,,
+Service Request Enable Query,*SRE?,Returns the contents of the Service Request Enable Register,Integer in the range of 0 to 255,,
+Status Byte Query,*STB?,Returns the contents of the Status byte,Integer in the range of 0 to 255,,The previous contents of the message buffer will be overwritten. Use instead the serial poll command. TODO: Include Register description here.
+Operation Complete,*OPC,Operation complete. The OPC Bit in the ESR is set to 1 if the previous initiated operation is completed,,,
+Operation Complete Query,*OPC?,Returned a 1 when all operation are complete,0 or 1,,
+Wait,*WAI,Not applicable for the Pilot,,,The command is implemented only to avoid any error message when this command is send by the controller
+Identification Query,*IDN?,Returns the device identification string,"<Manufacturer>, <Model>,<Serial Number>,<Firmware Version>",,This command is also available for RS232 and USB.
+Reset,*RST,The device will perform an Hardware reset,,,
+Selftest Query,*TST?,Returns the result after performing the self test,0 or 1,,
+,,,,,
+System Laser Working Hours Query,:SYSTem:Laser:Hours?,Returns the working hours of the laser,HH:MM:SS h,,
+System Working Hours Query,:SYSTem:Working:Hours?,Returns the working hours for the PilotPC,HH:MM:SS,,
+System Set Recall,:SYSTem:SET:Recall <n>,Loads the saved system set,,"0 default, 1 to 2 user settings",
+System Set Recall Query,:SYSTem:SET:Recall?,Returns the latest used setting,0 to 2,,
+System Set Save,:SYSTem:Set:Save <n>,Saves the setting to one of four user settings,,1 to 2,The factory default setting 0 cannot be overwritten
+System Self Test Query,:SYSTem:SELFTest?,Performs and returns the result of a self test,0 or 1,,
+System Status Query,:SYSTem:STATus?,Returns the system status and error flags. The number is the sum of each individual error number. The bits are octal coded (refer to Table 4).,Integer in a range of 0 to 77777,,If an error occurs the bit 3 in the ESR is set. TODO: Include table 4.
+System Status History Query,:SYSTem:STATus:HISTory?,Returns up to 15 of the latest system status and error flags. The second number is the sum of each individual error number (refer to Table 4). The bits are octal coded,<n>:<status>,,Read the buffer until you receive n =0 to delete the buffers contents. Every time the System Status has changed the buffer will save the latest state. This is a ring buffer.
+System Beeper Enable,:SYSTem:BEEP:ENAble <b>,Turns on or off the system beeper,,ON|1 or OFF|0,"The beeper will always beep when turning the laser on, even the beeper is disabled."
+System Beeper Enable Query,:SYSTem:BEEP:ENAble?,Returns the status of the system beeper,ON|OFF,,
+System RS232 Baud Rate,:SYSTem:BAUDrate <baud>,Sets the RS232 baud rate,,9600|19200|38400|57600,The new baud rate will immediately be set
+System RS232 Buad Rate Query,:SYSTem:BAUDrate?,Returns the RS232 buad rate,9600|19200|38400|57600,,
+System GPIB Address,:SYSTem:GPIB:ADDRess <n>,Sets the GPIB Address of the PilotPC,,0 to 30,The new address is valid after turning off and on again the device
+System GPIB Address Query,:SYSTem:GPIB:ADDRess?,Returns the GPIB address,1 to 30,,
+System Serial Number Query,:SYSTem:SERIALnumber?,Returns the serial number,1 to 16777216,,
+System Echo Enable (RS232 and USB only),:SYSTem:Echo <b>,Turns on or off the immediately echo for each character typed on a terminal program for the RS232 and USB,,ON|1 or OFF|0,"This command is available for GPIB also, but the echo is send only on RS232 and USB ports"
+System Acknowledge Enable (RS232 and USB only),:SYSTem:ACKnowledge <b>,"Turns on or off the ""O.K."" acknowledge and the error messages after each command.",,ON|1 or OFF|0,
+System LCD Contrast,:SYSTem:LCD:Contrast <n>,Sets the LCD contrast,0 to 100,,
+System Security Userkey,:SYSTem:SECURITY:USERKEY <n>,Sets the Userkey,,#h534C,"In the Secure Mode only Settings are accessible. The Setup-Parameters for Laser and TEC are protected. To change any of the Setup-Parameter a valid user key must be send to the device. If the Userkey is send to the PilotPC the Laser working time is saved in the ""UnsecureHours LD"" (see System Info Menu). You may lost your warranty for the Laser Diode if you unsecure the PilotPC. Please contact Sacher"
