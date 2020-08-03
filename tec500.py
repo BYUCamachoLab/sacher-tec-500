@@ -21,3 +21,8 @@ class TEC500():
     # Temperature Coupling
 
     # Piezo
+
+    # testing push capabilities
+
+    def functionName():
+        return True # this is a function
